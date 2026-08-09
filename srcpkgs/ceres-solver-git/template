@@ -1,0 +1,30 @@
+# Template file for 'ceres-solver-git'
+pkgname=ceres-solver-git
+version=20260802
+revision=1
+_githash="2017abdf9e7a5d42fa5b1c26df8bac853883c90a"
+build_style=cmake
+configure_args="-DBUILD_SHARED_LIBS=ON -DBUILD_TESTING=OFF"
+makedepends="eigen glog-devel lapack-devel libgomp-devel abseil-cpp-devel"
+short_desc="Large scale non-linear optimization library"
+maintainer="Techno263 <techno263code@proton.me>"
+license="BSD-3-Clause"
+homepage="http://ceres-solver.org/"
+distfiles="https://github.com/ceres-solver/ceres-solver/archive/${_githash}.tar.gz"
+checksum=bf05db29dedb4c8b911dfba857c58d4ece7fa841b1d4d7bcffc3b152316d80a4
+conflicts="ceres-solver"
+
+post_install() {
+	vlicense LICENSE
+}
+
+ceres-solver-git-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision} ${makedepends}"
+	short_desc+=" - development files"
+	conflicts="ceres-solver-devel"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/cmake
+		vmove "usr/lib/*.so"
+	}
+}
