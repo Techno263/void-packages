@@ -1,0 +1,32 @@
+# Template file for 'manifold'
+pkgname=manifold
+version=3.5.2
+revision=1
+build_style=cmake
+configure_args="-DMANIFOLD_JSBIND=OFF -DMANIFOLD_CBIND=OFF -DMANIFOLD_PYBIND=OFF
+ -DMANIFOLD_PAR=ON -DMANIFOLD_CROSS_SECTION=OFF
+ -DMANIFOLD_DEBUG=OFF -DMANIFOLD_TEST=OFF -DMANIFOLD_DOWNLOADS=OFF
+ -DTRACY_ENABLE=OFF -DMANIFOLD_USE_BUILTIN_TBB=OFF -DMANIFOLD_USE_BUILTIN_NANOBIND=OFF
+ -DBUILD_SHARED_LIBS=ON
+"
+hostmakedepends=""
+makedepends="tbb-devel"
+depends=""
+short_desc="A geometry library for manifold triangle meshes"
+maintainer="Techno263 <techno263code@proton.me>"
+license="Apache-2.0"
+homepage="https://github.com/elalish/manifold"
+changelog="https://github.com/elalish/manifold/releases"
+distfiles="https://github.com/elalish/manifold/archive/v${version}.tar.gz"
+checksum=35cb5e0d78882f461ec39b17d8f09c2aceca761356f3ce948e3f3908289b8f2e
+
+manifold-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove usr/lib/pkgconfig
+		vmove usr/lib/cmake
+		vmove "usr/lib/*.so"
+	}
+}
