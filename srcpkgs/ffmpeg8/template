@@ -1,8 +1,8 @@
-# Template file for 'ffmpeg6'
+# Template file for 'ffmpeg8'
 # audacity also needs to be bumped when a new ffmpeg version bumps libavformat's soname!
-pkgname=ffmpeg6
-version=6.1.6
-revision=3
+pkgname=ffmpeg8
+version=8.1.2
+revision=1
 hostmakedepends="pkg-config perl"
 makedepends="zlib-devel bzip2-devel freetype-devel alsa-lib-devel libXfixes-devel
  libXext-devel libXvMC-devel libxcb-devel lame-devel libtheora-devel
@@ -16,14 +16,14 @@ makedepends="zlib-devel bzip2-devel freetype-devel alsa-lib-devel libXfixes-deve
  $(vopt_if vdpau libvdpau-devel) $(vopt_if fdk_aac fdk-aac-devel)
  $(vopt_if libvpl libvpl-devel) $(vopt_if nvcodec nv-codec-headers)
  $(vopt_if vaapi libva-devel)"
-depends="ffplay6>=${version}_${revision}"
+depends="ffplay8>=${version}_${revision}"
 short_desc="Decoding, encoding and streaming software"
-maintainer="Orphaned <orphan@voidlinux.org>"
+maintainer="Techno263 <techno263code@proton.me>"
 license="GPL-3.0-or-later"
 homepage="https://www.ffmpeg.org"
 changelog="https://raw.githubusercontent.com/FFmpeg/FFmpeg/master/Changelog"
 distfiles="https://www.ffmpeg.org/releases/ffmpeg-${version}.tar.xz"
-checksum=d4fcb164028dd3beee5d92c0ac72e46aac6973c75ea12dc14de07bf8f407370a
+checksum=464beb5e7bf0c311e68b45ae2f04e9cc2af88851abb4082231742a74d97b524c
 
 build_options="vaapi vdpau fdk_aac nvcodec libvpl"
 desc_option_sofa="Enable support for AES SOFA"
@@ -94,7 +94,7 @@ do_configure() {
 		--enable-libopus --enable-librtmp --enable-libjack \
 		--disable-libopencore_amrnb --disable-libopencore_amrwb \
 		--disable-libopenjpeg --enable-libbluray --enable-libsoxr \
-		--enable-postproc --enable-opencl --enable-libvmaf ${_args} \
+		--enable-opencl --enable-libvmaf ${_args} \
 		--enable-libx265 --enable-libv4l2 --enable-libaom \
 		--enable-libbs2b --enable-libvidstab --enable-libdav1d \
 		--enable-libsrt --enable-librist --enable-libwebp \
@@ -119,80 +119,67 @@ do_install() {
 	make DESTDIR=${DESTDIR} install install-man
 }
 
-libavcodec6_package() {
+libavcodec8_package() {
 	short_desc="FFmpeg codec library"
 	pkg_install() {
 		vmove "usr/lib/libavcodec.so.*"
 	}
 }
 
-libavdevice6_package() {
+libavdevice8_package() {
 	short_desc="FFmpeg device handling library"
 	pkg_install() {
 		vmove "usr/lib/libavdevice.so.*"
 	}
 }
 
-libavresample6_package() {
-	short_desc="Package deprecated, removal needed"
-	metapackage=yes
-}
-
-libavformat6_package() {
+libavformat8_package() {
 	short_desc="FFmpeg file format library"
 	pkg_install() {
 		vmove "usr/lib/libavformat.so.*"
 	}
 }
 
-libavutil6_package() {
+libavutil8_package() {
 	short_desc="FFmpeg utility library"
 	pkg_install() {
 		vmove "usr/lib/libavutil.so.*"
 	}
 }
 
-libavfilter6_package() {
+libavfilter8_package() {
 	short_desc="FFmpeg audio/video filter library"
 	pkg_install() {
 		vmove "usr/lib/libavfilter.so.*"
 	}
 }
 
-libpostproc6_package() {
-	short_desc="FFmpeg video postprocessing library"
-	pkg_install() {
-		vmove "usr/lib/libpostproc.so.*"
-	}
-}
-
-libswscale6_package() {
+libswscale8_package() {
 	short_desc="FFmpeg video scaling library"
 	pkg_install() {
 		vmove "usr/lib/libswscale.so.*"
 	}
 }
 
-libswresample6_package() {
+libswresample8_package() {
 	short_desc="FFmpeg video resampling library"
 	pkg_install() {
 		vmove "usr/lib/libswresample.so.*"
 	}
 }
 
-ffmpeg6-devel_package() {
+ffmpeg8-devel_package() {
 	depends="
-		libavcodec6>=${version}_${revision}
-		libavdevice6>=${version}_${revision}
-		libavformat6>=${version}_${revision}
-		libavutil6>=${version}_${revision}
-		libavfilter6>=${version}_${revision}
-		libpostproc6>=${version}_${revision}
-		libswscale6>=${version}_${revision}
-		libswresample6>=${version}_${revision}"
+		libavcodec8>=${version}_${revision}
+		libavdevice8>=${version}_${revision}
+		libavformat8>=${version}_${revision}
+		libavutil8>=${version}_${revision}
+		libavfilter8>=${version}_${revision}
+		libswscale8>=${version}_${revision}
+		libswresample8>=${version}_${revision}"
 	short_desc+=" - development files"
-	conflicts="ffmpeg-devel ffmpeg8-devel"
-	replaces="ffmpeg-devel>=0"
+	conflicts="ffmpeg-devel ffmpeg6-devel"
+	replaces="ffmpeg-devel>=0 ffmpeg6-devel>=0"
 	case "$XBPS_TARGET_MACHINE" in
 		i686*)
 		# /usr/bin/strip: error: the input file '/destdir//ffmpeg-devel-4.4.4/usr/lib/libavfilter.a(vf_atadenoise.o)' has no sections
@@ -208,7 +195,7 @@ ffmpeg6-devel_package() {
 	}
 }
 
-ffplay6_package() {
+ffplay8_package() {
 	short_desc="Simple video player using FFmpeg and SDL2"
 	pkg_install() {
 		vmove usr/bin/ffplay

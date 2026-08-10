@@ -4615,3 +4615,11 @@ libcgif.so.0 cgif-0.5.3_1
 libdsk.so.5 libdsk-1.5.22_1
 libeigen_blas.so eigen-5.0.1_1
 libeigen_lapack.so eigen-5.0.1_1
+libavutil.so.60 libavutil8-8.1.2_1
+libavcodec.so.62 libavcodec8-8.1.2_1
+libavdevice.so.62 libavdevice8-8.1.2_1
+libavfilter.so.11 libavfilter8-8.1.2_1
+libavformat.so.62 libavformat8-8.1.2_1
+libavutil.so.60 libavutil8-8.1.2_1
+libswresample.so.6 libswresample8-8.1.2_1
+libswscale.so.9 libswscale8-8.1.2_1

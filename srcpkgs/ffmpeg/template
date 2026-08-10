@@ -214,7 +214,7 @@ ffmpeg-devel_package() {
 		libswresample>=${version}_${revision}
 		libavresample>=${version}_${revision}"
 	short_desc="Decoding, encoding and streaming software - development files"
-	conflicts="ffmpeg6-devel"
+	conflicts="ffmpeg6-devel ffmpeg8-devel"
 	replaces="ffmpeg6-devel>=0"
 	case "$XBPS_TARGET_MACHINE" in
 		i686*)
