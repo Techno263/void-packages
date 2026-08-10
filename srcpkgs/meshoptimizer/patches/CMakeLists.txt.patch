@@ -1,0 +1,14 @@
+diff -ur a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2026-06-29 18:47:46.000000000 -0400
++++ b/CMakeLists.txt	2026-08-10 18:43:35.436511496 -0400
+@@ -87,6 +87,10 @@
+
+ if(MESHOPT_BUILD_SHARED_LIBS)
+     add_library(meshoptimizer SHARED ${SOURCES})
++    set_target_properties(meshoptimizer PROPERTIES
++        VERSION ${PROJECT_VERSION}
++        SOVERSION ${PROJECT_VERSION_MAJOR}
++    )
+ else()
+     add_library(meshoptimizer STATIC ${SOURCES})
+ endif()

@@ -4623,3 +4623,4 @@ libavformat.so.62 libavformat8-8.1.2_1
 libavutil.so.60 libavutil8-8.1.2_1
 libswresample.so.6 libswresample8-8.1.2_1
 libswscale.so.9 libswscale8-8.1.2_1
+libmeshoptimizer.so.1 meshoptimizer-1.2_1

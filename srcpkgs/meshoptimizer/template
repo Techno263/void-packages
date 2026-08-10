@@ -1,0 +1,27 @@
+# Template file for 'meshoptimizer'
+pkgname=meshoptimizer
+version=1.2
+revision=1
+build_style=cmake
+configure_args="-DMESHOPT_BUILD_SHARED_LIBS=ON -DBUILD_SHARED_LIBS=ON"
+short_desc="library of optimizing meshes algorithms"
+maintainer="Techno263 <techno263code@proton.me>"
+license="MIT"
+homepage="https://meshoptimizer.org"
+changelog="https://github.com/zeux/meshoptimizer/releases"
+distfiles="https://github.com/zeux/meshoptimizer/archive/v${version}.tar.gz"
+checksum=e40f71b809cdf3361b9a4def85fd44534e8733ce29d4b943c145b76859e4c2b4
+
+post_install() {
+	vlicense LICENSE.md
+}
+
+meshoptimizer-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.so"
+		vmove usr/lib/cmake
+	}
+}
