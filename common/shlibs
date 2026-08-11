@@ -4625,3 +4625,16 @@ libswresample.so.6 libswresample8-8.1.2_1
 libswscale.so.9 libswscale8-8.1.2_1
 libmeshoptimizer.so.1 meshoptimizer-1.2_1
 libmanifold.so.3 manifold-3.5.2_1
+libMaterialXCore.so.1 materialx-1.39.5_1
+libMaterialXFormat.so.1 materialx-1.39.5_1
+libMaterialXGenGlsl.so.1 materialx-1.39.5_1
+libMaterialXGenHw.so.1 materialx-1.39.5_1
+libMaterialXGenMdl.so.1 materialx-1.39.5_1
+libMaterialXGenMsl.so.1 materialx-1.39.5_1
+libMaterialXGenOsl.so.1 materialx-1.39.5_1
+libMaterialXGenShader.so.1 materialx-1.39.5_1
+libMaterialXGenSlang.so.1 materialx-1.39.5_1
+libMaterialXRender.so.1 materialx-1.39.5_1
+libMaterialXRenderGlsl.so.1 materialx-1.39.5_1
+libMaterialXRenderHw.so.1 materialx-1.39.5_1
+libMaterialXRenderOsl.so.1 materialx-1.39.5_1

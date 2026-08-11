@@ -1,0 +1,11 @@
+diff -ur a/python/CMakeLists.txt b/python/CMakeLists.txt
+--- a/python/CMakeLists.txt	2026-08-12 02:50:06.746656604 -0400
++++ b/python/CMakeLists.txt	2026-08-12 03:06:54.537999786 -0400
+@@ -12,6 +12,6 @@
+ endif()
+ 
+ if(MATERIALX_INSTALL_PYTHON AND PYTHON_EXECUTABLE AND NOT SKBUILD)
+-  set(PYPROJECT_TOML "${CMAKE_INSTALL_PREFIX}/python/pyproject.toml")
++  set(PYPROJECT_TOML "${CMAKE_BINARY_DIR}/python/pyproject.toml")
+   configure_file("${CMAKE_CURRENT_SOURCE_DIR}/pyproject.toml.in" "${PYPROJECT_TOML}")
+ endif()

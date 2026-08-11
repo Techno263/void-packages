@@ -1,0 +1,165 @@
+diff -ur a/source/MaterialXGenShader/GenOptions.h b/source/MaterialXGenShader/GenOptions.h
+--- a/source/MaterialXGenShader/GenOptions.h	2026-08-12 02:50:06.801073373 -0400
++++ b/source/MaterialXGenShader/GenOptions.h	2026-08-12 02:55:21.051626470 -0400
+@@ -79,7 +79,7 @@
+         shaderInterfaceType(SHADER_INTERFACE_COMPLETE),
+         fileTextureVerticalFlip(false),
+         addUpstreamDependencies(true),
+-        libraryPrefix("libraries"),
++        libraryPrefix("/usr/share/materialx/libraries"),
+         emitColorTransforms(true),
+         elideConstantNodes(true),
+         premultipliedBsdfAdd(false),
+diff -ur a/source/MaterialXGraphEditor/Graph.cpp b/source/MaterialXGraphEditor/Graph.cpp
+--- a/source/MaterialXGraphEditor/Graph.cpp	2026-08-12 02:50:06.802994365 -0400
++++ b/source/MaterialXGraphEditor/Graph.cpp	2026-08-12 02:54:47.931893778 -0400
+@@ -161,8 +161,8 @@
+     initializeGraph();
+ 
+     // Create a renderer using the initial startup document.
+-    mx::FilePath captureFilename = "resources/Materials/Examples/example.png";
+-    std::string envRadianceFilename = "resources/Lights/san_giuseppe_bridge_split.hdr";
++    mx::FilePath captureFilename = "/usr/share/materialx/resources/Materials/Examples/example.png";
++    std::string envRadianceFilename = "/usr/share/materialx/resources/Lights/san_giuseppe_bridge_split.hdr";
+     _renderer = std::make_shared<RenderView>(_graphDoc, _stdLib, meshFilename, envRadianceFilename,
+                                              _searchPath, viewWidth, viewHeight);
+     _renderer->initialize();
+@@ -210,7 +210,7 @@
+ 
+ mx::DocumentPtr Graph::loadDocument(const mx::FilePath& filename)
+ {
+-    mx::FilePathVec libraryFolders = { "libraries" };
++    mx::FilePathVec libraryFolders = { "/usr/share/materialx/libraries" };
+     _libraryFolders = libraryFolders;
+     mx::XmlReadOptions readOptions;
+     readOptions.readXIncludeFunction = [](mx::DocumentPtr doc, const mx::FilePath& filename,
+diff -ur a/source/MaterialXGraphEditor/Main.cpp b/source/MaterialXGraphEditor/Main.cpp
+--- a/source/MaterialXGraphEditor/Main.cpp	2026-08-12 02:50:06.803100901 -0400
++++ b/source/MaterialXGraphEditor/Main.cpp	2026-08-12 02:54:27.137805913 -0400
+@@ -64,8 +64,8 @@
+         tokens.emplace_back(argv[i]);
+     }
+ 
+-    std::string materialFilename = "resources/Materials/Examples/StandardSurface/standard_surface_marble_solid.mtlx";
+-    std::string meshFilename = "resources/Geometry/shaderball.glb";
++    std::string materialFilename = "/usr/share/materialx/resources/Materials/Examples/StandardSurface/standard_surface_marble_solid.mtlx";
++    std::string meshFilename = "/usr/share/materialx/resources/Geometry/shaderball.glb";
+     mx::FileSearchPath searchPath = mx::getDefaultDataSearchPath();
+     mx::FilePathVec libraryFolders;
+     int viewWidth = 256;
+@@ -149,7 +149,7 @@
+     }
+ 
+     // Append the standard library folder, giving it a lower precedence than user-supplied libraries.
+-    libraryFolders.push_back("libraries");
++    libraryFolders.push_back("/usr/share/materialx/libraries");
+ 
+     // Setup window
+     glfwSetErrorCallback(errorCallback);
+@@ -205,7 +205,7 @@
+     }
+     if (!customFont)
+     {
+-        const mx::FilePath defaultFontFile("resources/Fonts/Roboto-Regular.ttf");
++        const mx::FilePath defaultFontFile("/usr/share/materialx/resources/Fonts/Roboto-Regular.ttf");
+         mx::FilePath resolvedFontPath = searchPath.find(defaultFontFile);
+         if (!resolvedFontPath.isEmpty())
+         {
+diff -ur a/source/MaterialXView/Main.cpp b/source/MaterialXView/Main.cpp
+--- a/source/MaterialXView/Main.cpp	2026-08-12 02:50:06.806571079 -0400
++++ b/source/MaterialXView/Main.cpp	2026-08-12 02:53:14.262993392 -0400
+@@ -74,9 +74,9 @@
+         tokens.emplace_back(argv[i]);
+     }
+ 
+-    std::string materialFilename = "resources/Materials/Examples/StandardSurface/standard_surface_default.mtlx";
+-    std::string meshFilename = "resources/Geometry/shaderball.glb";
+-    std::string envRadianceFilename = "resources/Lights/san_giuseppe_bridge_split.hdr";
++    std::string materialFilename = "/usr/share/materialx/resources/Materials/Examples/StandardSurface/standard_surface_default.mtlx";
++    std::string meshFilename = "/usr/share/materialx/resources/Geometry/shaderball.glb";
++    std::string envRadianceFilename = "/usr/share/materialx/resources/Lights/san_giuseppe_bridge_split.hdr";
+     mx::FileSearchPath searchPath = mx::getDefaultDataSearchPath();
+     mx::FilePathVec libraryFolders;
+ 
+@@ -278,7 +278,7 @@
+     }
+ 
+     // Append the standard library folder, giving it a lower precedence than user-supplied libraries.
+-    libraryFolders.push_back("libraries");
++    libraryFolders.push_back("/usr/share/materialx/libraries");
+ 
+     ng::init();
+     {
+diff -ur a/source/MaterialXView/Viewer.cpp b/source/MaterialXView/Viewer.cpp
+--- a/source/MaterialXView/Viewer.cpp	2026-08-12 02:50:06.806669659 -0400
++++ b/source/MaterialXView/Viewer.cpp	2026-08-12 02:51:54.893841113 -0400
+@@ -367,7 +367,7 @@
+     // Create environment geometry handler.
+     _envGeometryHandler = mx::GeometryHandler::create();
+     _envGeometryHandler->addLoader(objLoader);
+-    mx::FilePath envSphere("resources/Geometry/sphere.obj");
++    mx::FilePath envSphere("/usr/share/materialx/resources/Geometry/sphere.obj");
+     _envGeometryHandler->loadGeometry(_searchPath.find(envSphere));
+ 
+     // Initialize environment light.
+@@ -2560,7 +2560,7 @@
+ {
+     if (!_envMaterial)
+     {
+-        mx::FilePath envFilename = _searchPath.find(mx::FilePath("resources/Lights/environment_map.mtlx"));
++        mx::FilePath envFilename = _searchPath.find(mx::FilePath("/usr/share/materialx/resources/Lights/environment_map.mtlx"));
+         try
+         {
+             _envMaterial = _renderPipeline->createMaterial();
+diff -ur a/cmake/modules/MaterialXConfig.cmake.in b/cmake/modules/MaterialXConfig.cmake.in
+--- a/cmake/modules/MaterialXConfig.cmake.in	2026-08-12 17:42:10.610029279 -0400
++++ b/cmake/modules/MaterialXConfig.cmake.in	2026-08-12 18:21:39.999505416 -0400
+@@ -20,7 +20,7 @@
+ # MATERIALX_RESOURCES_DIR    Path to MaterialX Resources (sample data, mtlx etc)
+ 
+ set_and_check(MATERIALX_BASE_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@")
+-set_and_check(MATERIALX_STDLIB_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@/@MATERIALX_INSTALL_STDLIB_PATH@")
++set_and_check(MATERIALX_STDLIB_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@/share/materialx/@MATERIALX_INSTALL_STDLIB_PATH@")
+ if(@MATERIALX_BUILD_PYTHON@ AND @MATERIALX_INSTALL_PYTHON@)
+     set_and_check(MATERIALX_PYTHON_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@/python")
+ endif()
+@@ -36,7 +36,7 @@
+ endif()
+ 
+ if(@MATERIALX_BUILD_RENDER@ AND @MATERIALX_INSTALL_RESOURCES@)
+-    set_and_check(MATERIALX_RESOURCES_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@/resources")
++    set_and_check(MATERIALX_RESOURCES_DIR "@PACKAGE_CMAKE_INSTALL_PREFIX@/share/materialx/resources")
+ endif()
+ 
+ if(UNIX AND NOT APPLE)
+diff -ur a/libraries/CMakeLists.txt b/libraries/CMakeLists.txt
+--- a/libraries/CMakeLists.txt	2026-08-12 17:42:10.614816276 -0400
++++ b/libraries/CMakeLists.txt	2026-08-12 18:05:24.263033331 -0400
+@@ -62,7 +62,7 @@
+ 
+ if(NOT SKBUILD)
+     install(DIRECTORY ${DATA_LIBRARY_DIR}/
+-            DESTINATION "${MATERIALX_INSTALL_STDLIB_PATH}"
++            DESTINATION "share/materialx/${MATERIALX_INSTALL_STDLIB_PATH}"
+             PATTERN "CMakeLists.txt" EXCLUDE)
+ endif()
+ 
+diff -ur a/resources/CMakeLists.txt b/resources/CMakeLists.txt
+--- a/resources/CMakeLists.txt	2026-08-12 17:42:10.619946996 -0400
++++ b/resources/CMakeLists.txt	2026-08-12 18:03:05.898714230 -0400
+@@ -1,4 +1,4 @@
+ if(NOT SKBUILD)
+     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/
+-            DESTINATION "resources" MESSAGE_NEVER)
++            DESTINATION "share/materialx/resources" MESSAGE_NEVER)
+ endif()
+diff -ur a/source/MaterialXGenMdl/CMakeLists.txt b/source/MaterialXGenMdl/CMakeLists.txt
+--- a/source/MaterialXGenMdl/CMakeLists.txt	2026-08-12 17:42:10.687502260 -0400
++++ b/source/MaterialXGenMdl/CMakeLists.txt	2026-08-12 18:19:14.403831161 -0400
+@@ -14,5 +14,5 @@
+ 
+ if(NOT SKBUILD)
+     install(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/mdl
+-            DESTINATION "${MATERIALX_INSTALL_STDLIB_PATH}")
++            DESTINATION "share/materialx/${MATERIALX_INSTALL_STDLIB_PATH}")
+ endif()

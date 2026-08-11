@@ -1,0 +1,12 @@
+diff -ur a/CMakeLists.txt b/CMakeLists.txt
+--- a/CMakeLists.txt	2026-08-12 17:42:10.609875813 -0400
++++ b/CMakeLists.txt	2026-08-12 18:30:44.034184344 -0400
+@@ -656,8 +656,6 @@
+ 
+ # Install root-level documents
+ if(NOT SKBUILD)
+-    install(FILES LICENSE CHANGELOG.md README.md THIRD-PARTY.md DESTINATION .)
+-
+     set(MATERIALX_GEN_CONFIG_PATH "${MATERIALX_INSTALL_LIB_PATH}/cmake/${CMAKE_PROJECT_NAME}")
+ 
+     include(CMakePackageConfigHelpers)

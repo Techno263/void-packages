@@ -1,0 +1,103 @@
+# Template file for 'materialx'
+pkgname=materialx
+version=1.39.5
+revision=1
+_nanogui_githash=6452dd6944d2ba5c0c9bc0042a1894f703ce1ace
+_glfw_githash=e130e55a990998c78fd323f21076e798e0efe8a4
+_nanovg_githash=bf2320d1175122374a9b806d91e9e666c9336375
+_imgui_githash=9aae45eb4a05a5a1f96be1ef37eb503a12ceb889
+_imgui_node_editor_githash=2f99b2d613a400f6579762bd7e7c343a0d844158
+build_style=cmake
+configure_args="-DCMAKE_SKIP_INSTALL_RPATH=ON -DCMAKE_SKIP_RPATH=ON
+ -DMATERIALX_BUILD_SHARED_LIBS=ON -DMATERIALX_BUILD_PYTHON=ON -DMATERIALX_BUILD_VIEWER=ON
+ -DMATERIALX_BUILD_GRAPH_EDITOR=ON -DMATERIALX_BUILD_RENDER=ON -DMATERIALX_BUILD_DOCS=OFF
+ -DMATERIALX_BUILD_TESTS=OFF -DMATERIALX_INSTALL_PYTHON=OFF
+ -DMATERIALX_TEST_RENDER=OFF -DMATERIALX_TEST_RENDER_GLSL=OFF -DMATERIALX_TEST_REFERENCE_QUALITY=OFF
+ -DMATERIALX_BUILD_JS=OFF -DMATERIALX_BUILD_OIIO=ON -DMATERIALX_BUILD_OCIO=ON"
+hostmakedepends="python3-packaging-bootstrap"
+makedepends="glu-devel imath-devel libXcursor-devel libXi-devel libXinerama-devel
+ libxkbcommon-devel libXrandr-devel libXt-devel MesaLib-devel opencolorio-devel
+ openimageio-devel python3-pybind11"
+depends=""
+short_desc="Library for representing rich material and look-development content"
+maintainer="Techno263 <techno263code@proton.me>"
+license="Apache-2.0"
+homepage="https://github.com/AcademySoftwareFoundation/MaterialX"
+changelog="https://github.com/AcademySoftwareFoundation/MaterialX/releases"
+distfiles="https://github.com/AcademySoftwareFoundation/MaterialX/archive/v${version}.tar.gz
+ https://github.com/mitsuba-renderer/nanogui/archive/${_nanogui_githash}.tar.gz
+ https://github.com/wjakob/glfw/archive/${_glfw_githash}.tar.gz
+ https://github.com/wjakob/nanovg/archive/${_nanovg_githash}.tar.gz
+ https://github.com/ocornut/imgui/archive/${_imgui_githash}.tar.gz
+ https://github.com/thedmd/imgui-node-editor/archive/${_imgui_node_editor_githash}.tar.gz"
+checksum="c0d739b70a36f6f72888a0e8e66db5c83ae87c40737cc9b51c108166804f3a3b
+ 3dd9b1f0545630b4239d7734518052a6204a962adc15b99fc4c0c53840344c50
+ 17343211b79421f6d2b92947915acadebf082d1c16c7ddb757555660d044c5b1
+ 3e16aece01492a1fc2b398d6f2ad5aeef27a1810bf2b38de635b2e23aa7f0ecb
+ e63327c88b5fbb74248b0afb073fe37bee69daac0ca8afd6834e46117375d50e
+ aa0434f76590e7696f0f9ec6255a87127555e60feb48948b9b233d7161eae3d7"
+skip_extraction="${_nanogui_githash}.tar.gz
+ ${_glfw_githash}.tar.gz
+ ${_nanovg_githash}.tar.gz
+ ${_imgui_githash}.tar.gz
+ ${_imgui_node_editor_githash}.tar.gz"
+python_version=3
+
+post_extract() {
+	vsrcextract -C source/MaterialXView/NanoGUI ${_nanogui_githash}.tar.gz
+	vsrcextract -C source/MaterialXView/NanoGUI/ext/glfw ${_glfw_githash}.tar.gz
+	vsrcextract -C source/MaterialXView/NanoGUI/ext/nanovg ${_nanovg_githash}.tar.gz
+	vsrcextract -C source/MaterialXGraphEditor/External/ImGui ${_imgui_githash}.tar.gz
+	vsrcextract -C source/MaterialXGraphEditor/External/ImGuiNodeEditor ${_imgui_node_editor_githash}.tar.gz
+}
+
+post_install() {
+	vlicense LICENSE
+	vlicense THIRD-PARTY.md
+}
+
+materialx-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}
+	  ${sourcepkg}-data>=${version}_${revision}
+	  ${sourcepkg}-view>=${version}_${revision}
+	  ${sourcepkg}-graph-editor>=${version}_${revision}
+	  libXt-devel"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.so"
+		vmove usr/lib/cmake
+	}
+}
+
+materialx-data_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - data files"
+	pkg_install() {
+		vmove usr/share/materialx
+	}
+}
+
+materialx-view_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - view app"
+	pkg_install() {
+		vmove usr/bin/MaterialXView
+	}
+}
+
+materialx-graph-editor_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - graph editor app"
+	pkg_install() {
+		vmove usr/bin/MaterialXGraphEditor
+	}
+}
+
+materialx-python3_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - Python3 bindings"
+	pkg_install() {
+		vmove usr/lib/python3.14/site-packages
+	}
+}
