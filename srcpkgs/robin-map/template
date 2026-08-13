@@ -1,6 +1,6 @@
 # Template file for 'robin-map'
 pkgname=robin-map
-version=1.0.1
+version=1.4.1
 revision=1
 build_style=cmake
 short_desc="Fast hash map and hash set using robin hood hashing"
@@ -8,7 +8,7 @@ maintainer="John <me@johnnynator.dev>"
 license="MIT"
 homepage="https://github.com/Tessil/robin-map"
 distfiles="https://github.com/Tessil/robin-map/archive/refs/tags/v${version}.tar.gz"
-checksum=b2ffdb623727cea852a66bddcb7fa6d938538a82b40e48294bb581fe086ef005
+checksum=0e3f53a377fdcdc5f9fed7a4c0d4f99e82bbb64175233bd13427fef9a771f4a1
 
 post_install() {
 	vlicense LICENSE
