@@ -1,0 +1,108 @@
+# Template file for 'openshadinglanguage'
+pkgname=openshadinglanguage
+version=1.15.6.0
+revision=1
+_llvm_version=22
+build_style=cmake
+configure_args=""
+hostmakedepends="bison flex"
+makedepends="zlib-devel openimageio-devel imath-devel pugixml-devel python3-devel
+ python3-pybind11 qt6-base-devel qt6-core qt6-gui qt6-widgets qt6-opengl-widgets
+ robin-map llvm${_llvm_version}-devel clang${_llvm_version}-headers
+ clang${_llvm_version}-devel partio-devel"
+depends=""
+short_desc="A shader language with C-like syntax"
+maintainer="Techno263 <techno263code@proton.me>"
+license="BSD-3-Clause"
+homepage="https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/"
+changelog="https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/releases"
+distfiles="https://github.com/AcademySoftwareFoundation/OpenShadingLanguage/archive/v${version}.tar.gz"
+checksum=85b71407ad28c464a7ec5c9dcb33ac67f9e98b92495568549d4b9c138c91a579
+# osltoy must be packaged before doc
+# testshade must be packaged before doc
+subpackages="openshadinglanguage-oslc openshadinglanguage-oslinfo openshadinglanguage-osltoy
+ openshadinglanguage-testrender openshadinglanguage-testshade openshadinglanguage-python3
+ openshadinglanguage-doc openshadinglanguage-devel"
+python_version=3
+
+post_install() {
+	vlicense LICENSE.md
+	vlicense THIRD-PARTY.md
+}
+
+openshadinglanguage-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}
+	  ${sourcepkg}-oslc>=${version}_${revision}
+	  ${sourcepkg}-oslinfo>=${version}_${revision}
+	  ${sourcepkg}-testshade>=${version}_${revision}
+	  ${sourcepkg}-osltoy>=${version}_${revision}
+      "
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.so"
+		vmove usr/lib/cmake
+		vmove usr/lib/pkgconfig
+	}
+}
+
+openshadinglanguage-python3_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - Python3 bindings"
+	pkg_install() {
+		vmove usr/lib/python3.14/site-packages
+	}
+}
+
+openshadinglanguage-doc_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - documentation"
+	pkg_install() {
+		vmove usr/share/doc
+	}
+}
+
+openshadinglanguage-oslc_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - oslc"
+	pkg_install() {
+		vmove usr/bin/oslc
+	}
+}
+
+openshadinglanguage-oslinfo_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - oslinfo"
+	pkg_install() {
+		vmove usr/bin/oslinfo
+	}
+}
+
+openshadinglanguage-testshade_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - testshade"
+	pkg_install() {
+		vmove usr/bin/testshade
+		vmove usr/bin/testshade_dso
+		vmove "usr/lib/libtestshade.so.*"
+		vmove usr/share/doc/OSL/Figures/testshade
+		vmove usr/share/doc/OSL/testshade.md.html
+	}
+}
+
+openshadinglanguage-testrender_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - testrender"
+	pkg_install() {
+		vmove usr/bin/testrender
+	}
+}
+
+openshadinglanguage-osltoy_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - osltoy"
+	pkg_install() {
+		vmove usr/bin/osltoy
+		vmove usr/share/doc/OSL/Figures/osltoy
+	}
+}

@@ -4638,3 +4638,7 @@ libMaterialXRender.so.1 materialx-1.39.5_1
 libMaterialXRenderGlsl.so.1 materialx-1.39.5_1
 libMaterialXRenderHw.so.1 materialx-1.39.5_1
 libMaterialXRenderOsl.so.1 materialx-1.39.5_1
+liboslcomp.so.1.15 openshadinglanguage-1.15.6.0_1
+liboslexec.so.1.15 openshadinglanguage-1.15.6.0_1
+liboslnoise.so.1.15 openshadinglanguage-1.15.6.0_1
+liboslquery.so.1.15 openshadinglanguage-1.15.6.0_1
