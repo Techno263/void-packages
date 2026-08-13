@@ -1,0 +1,55 @@
+# Template file for 'partio'
+pkgname=partio
+version=1.20.0
+revision=1
+build_style=cmake
+configure_args="-DPARTIO_ENABLE_TESTING=OFF -DPARTIO_ORIGIN_RPATH=OFF
+ -DPARTIO_BUILD_TOOLS=ON -DPARTIO_BUILD_PYTHON=ON -DPARTIO_BUILD_DOCS=ON"
+hostmakedepends="python3-packaging-bootstrap swig doxygen graphviz"
+makedepends="zlib-devel python3-devel libfreeglut-devel"
+depends=""
+short_desc="A library for reading, writing and manipulating particle formats"
+maintainer="Techno263 <techno263code@proton.me>"
+license="custom:BSD-3-Clause-Disney"
+homepage="https://www.disneyanimation.com/open-source/partio/"
+distfiles="https://github.com/wdas/partio/archive/v${version}.tar.gz"
+checksum=e60a89364f2b5d9c9b1f143175fc1a5018027a59bb31af56e5df88806b506e49
+python_version=3
+
+post_install() {
+	vlicense LICENSE
+}
+
+partio-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.so"
+		vmove usr/share/swig
+	}
+}
+
+partio-tools_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - tools"
+	pkg_install() {
+		vmove usr/bin
+	}
+}
+
+partio-python3_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - Python3 bindings"
+	pkg_install() {
+		vmove usr/lib/python3.14/site-packages
+	}
+}
+
+partio-doc_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - documentation"
+	pkg_install() {
+		vmove usr/share/doc
+	}
+}
