@@ -1,0 +1,39 @@
+diff -ur a/cmake/macros/Private.cmake b/cmake/macros/Private.cmake
+--- a/cmake/macros/Private.cmake	2026-07-17 16:41:06.000000000 -0400
++++ b/cmake/macros/Private.cmake	2026-08-17 19:14:53.185079713 -0400
+@@ -1006,6 +1006,10 @@
+         SHARED
+         ${args_CPPFILES}
+     )
++    set_target_properties(${LIBRARY_NAME} PROPERTIES
++        VERSION "${PXR_MAJOR_VERSION}.${PXR_MINOR_VERSION}.${PXR_PATCH_VERSION}"
++        SOVERSION ${PXR_MAJOR_VERSION}
++    )
+     add_dependencies(python_modules ${LIBRARY_NAME})
+     if(args_PYTHON_FILES)
+         add_dependencies(${LIBRARY_NAME} ${LIBRARY_NAME}_pythonfiles)
+@@ -1257,6 +1261,10 @@
+             ${args_PUBLIC_HEADERS}
+             ${args_PRIVATE_HEADERS}
+         )
++        set_target_properties(${NAME} PROPERTIES
++            VERSION "${PXR_MAJOR_VERSION}.${PXR_MINOR_VERSION}.${PXR_PATCH_VERSION}"
++            SOVERSION ${PXR_MAJOR_VERSION}
++        )
+         if(PXR_PY_UNDEFINED_DYNAMIC_LOOKUP)
+             # When not explicitly linking to the python lib we need to allow
+             # the linker to complete without resolving all symbols. This lets
+diff -ur a/cmake/macros/Public.cmake b/cmake/macros/Public.cmake
+--- a/cmake/macros/Public.cmake	2026-07-17 16:41:06.000000000 -0400
++++ b/cmake/macros/Public.cmake	2026-08-18 07:38:35.678191416 -0400
+@@ -1204,6 +1204,10 @@
+             endif()
+ 
+             add_library(usd_m ${libType} "${CMAKE_CURRENT_BINARY_DIR}/usd_m.cpp")
++            set_target_properties(usd_m PROPERTIES
++                VERSION "${PXR_MAJOR_VERSION}.${PXR_MINOR_VERSION}.${PXR_PATCH_VERSION}"
++                SOVERSION ${PXR_MAJOR_VERSION}
++            )
+ 
+             _get_folder("" folder)
+             _get_library_prefix(libPrefix)

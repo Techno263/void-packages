@@ -1,0 +1,57 @@
+diff -ur a/cmake/macros/Private.cmake b/cmake/macros/Private.cmake
+--- a/cmake/macros/Private.cmake	2026-07-17 16:41:06.000000000 -0400
++++ b/cmake/macros/Private.cmake	2026-08-16 16:41:50.268571319 -0400
+@@ -1198,7 +1202,7 @@
+         _get_install_dir("plugin" pluginInstallPrefix)
+         if (NOT PXR_INSTALL_SUBDIR)
+             # XXX --- Why this difference?
+-            _get_install_dir("plugin/usd" pluginInstallPrefix)
++            _get_install_dir("lib/usd/plugin" pluginInstallPrefix)
+         endif()
+     else()
+         _get_install_dir("lib/usd" pluginInstallPrefix)
+diff -ur a/cmake/macros/Public.cmake b/cmake/macros/Public.cmake
+--- a/cmake/macros/Public.cmake	2026-07-17 16:41:06.000000000 -0400
++++ b/cmake/macros/Public.cmake	2026-08-16 16:40:49.953394274 -0400
+@@ -1095,7 +1095,7 @@
+          "${plugInfoContents}")
+     install(
+         FILES "${CMAKE_CURRENT_BINARY_DIR}/usd_plugInfo.json"
+-        DESTINATION plugin/usd
++        DESTINATION lib/usd/plugin
+         RENAME "plugInfo.json"
+     )
+ 
+diff -ur a/pxr/CMakeLists.txt b/pxr/CMakeLists.txt
+--- a/pxr/CMakeLists.txt	2026-07-17 16:41:06.000000000 -0400
++++ b/pxr/CMakeLists.txt	2026-08-16 16:31:17.846918039 -0400
+@@ -67,7 +67,7 @@
+   "${PROJECT_BINARY_DIR}/pxrConfig.cmake" @ONLY)
+ install(FILES
+   "${PROJECT_BINARY_DIR}/pxrConfig.cmake"
+-  DESTINATION "${CMAKE_INSTALL_PREFIX}"
++  DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/cmake/pxr"
+ )
+ 
+-install(EXPORT pxrTargets DESTINATION "cmake")
++install(EXPORT pxrTargets DESTINATION "lib/cmake/pxr")
+diff -ur a/pxr/pxrConfig.cmake.in b/pxr/pxrConfig.cmake.in
+--- a/pxr/pxrConfig.cmake.in	2026-07-17 16:41:06.000000000 -0400
++++ b/pxr/pxrConfig.cmake.in	2026-08-17 17:41:17.750401477 -0400
+@@ -115,14 +115,14 @@
+     find_dependency(@PXR_WORK_IMPL_PACKAGE@)
+ endif()
+ 
+-include("${PXR_CMAKE_DIR}/cmake/pxrTargets.cmake")
++include("${PXR_CMAKE_DIR}/pxrTargets.cmake")
+ if (TARGET usd_m)
+     set(libs "usd_m")
+ else()
+     set(libs "@PXR_ALL_LIBS@")
+ endif()
+ set(PXR_LIBRARIES "")
+-set(PXR_INCLUDE_DIRS "${PXR_CMAKE_DIR}/include")
++set(PXR_INCLUDE_DIRS "/usr/include")
+ string(REPLACE " " ";" libs "${libs}")
+ foreach(lib ${libs})
+     get_target_property(location ${lib} LOCATION)

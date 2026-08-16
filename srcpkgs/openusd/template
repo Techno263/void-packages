@@ -1,0 +1,53 @@
+# Template file for 'openusd'
+pkgname=openusd
+version=26.08
+revision=1
+build_style=cmake
+configure_args="-DPXR_BUILD_TESTS=OFF -DPXR_BUILD_EXAMPLES=OFF -DPXR_BUILD_TUTORIALS=OFF
+ -DPXR_BUILD_USD_TOOLS=ON -DPXR_BUILD_IMAGING=ON -DPXR_BUILD_EMBREE_PLUGIN=ON
+ -DPXR_BUILD_OPENIMAGEIO_PLUGIN=ON -DPXR_BUILD_OPENCOLORIO_PLUGIN=ON -DPXR_BUILD_USD_IMAGING=ON
+ -DPXR_BUILD_USD_VALIDATION=ON -DPXR_BUILD_EXEC=ON -DPXR_BUILD_USDVIEW=ON -DPXR_BUILD_ALEMBIC_PLUGIN=ON
+ -DPXR_BUILD_DRACO_PLUGIN=ON -DPXR_BUILD_PRMAN_PLUGIN=OFF -DPXR_ENABLE_MATERIALX_SUPPORT=ON
+ -DPXR_BUILD_DOCUMENTATION=OFF -DPXR_BUILD_PYTHON_DOCUMENTATION=OFF -DPXR_BUILD_HTML_DOCUMENTATION=OFF
+ -DPXR_ENABLE_PYTHON_SUPPORT=ON -DPXR_USE_DEBUG_PYTHON=OFF -DPXR_ENABLE_HDF5_SUPPORT=ON
+ -DPXR_ENABLE_OSL_SUPPORT=ON -DPXR_ENABLE_PTEX_SUPPORT=ON -DPXR_ENABLE_OPENVDB_SUPPORT=ON
+ -DPXR_ENABLE_VULKAN_SUPPORT=OFF -DPXR_ENABLE_GL_SUPPORT=ON -DBUILD_SHARED_LIBS=ON
+ -DPXR_BUILD_MONOLITHIC=ON -DPXR_MALLOC_LIBRARY=/usr/lib/libjemalloc.so
+ -DPYSIDEUICBINARY=/usr/lib/qt6/libexec/uic"
+hostmakedepends="python3-packaging-bootstrap pkg-config"
+makedepends="python3-devel python3-Jinja2 tbb-devel jemalloc-devel openimageio-devel
+ opencolorio-devel MesaLib-devel OpenSubdiv-devel ptex-devel zlib-devel embree-devel
+ qt6-base python3-pyside6 python3-PyOpenGL alembic-devel hdf5-devel draco-devel
+ materialx-devel openshadinglanguage-devel imath-devel libgomp-devel openvdb-devel
+ boost-devel
+"
+depends=""
+short_desc="Robust and interchangeable 3D scene representation"
+maintainer="Techno263 <techno263code@proton.me>"
+license="custom:Tomorrow-Open-Source-Technology"
+homepage="https://openusd.org/release/index.html"
+changelog="https://github.com/PixarAnimationStudios/OpenUSD/blob/release/CHANGELOG.md"
+distfiles="https://github.com/PixarAnimationStudios/OpenUSD/archive/v${version}.tar.gz"
+checksum=4bccbb95cddda1dbeef2f74a08b9456352f2aa91bfd4578c0c613009c7950149
+
+post_install() {
+	vlicense LICENSE.txt
+}
+
+openusd-devel_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - development files"
+	pkg_install() {
+		vmove usr/include
+		vmove "usr/lib/*.so"
+		vmove usr/lib/cmake
+	}
+}
+
+openusd-python3_package() {
+	depends="${sourcepkg}>=${version}_${revision}"
+	short_desc+=" - Python3 bindings"
+	pkg_install() {
+		vmove /usr/lib/python3.14/site-packages
+	}
+}
